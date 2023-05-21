@@ -10,9 +10,7 @@ try {
 $registros = consultar("SELECT * FROM canasta");
 # var_dump($registros);
 ?>
-
-
-
+<!--Vista de la canasta para el proceso de compra en la tienda fisica-->
 <!DOCTYPE html>
 <html class="es">
     <head>
