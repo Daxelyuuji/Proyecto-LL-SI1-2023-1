@@ -1,0 +1,22 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 2 may. 2023, 11:41:11
+    Author     : IMTEC
+*/
+
+.sises{
+    margin: 0;
+    padding: 25px;
+    border: 0;
+    text-align: justify;
+    line-height: 1.5;
+}
+.editar{
+    background: #83a4d4;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}

@@ -1,0 +1,42 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.navbar{
+    padding: 2rem;
+    background: #DCFCFF;
+}
+.navbar-collapse{
+    align-items: center;
+    justify-content: space-between;
+}
+.container{
+    background: #C0E6FA;
+    height: 50px;
+    padding-top: 15px;
+    transition: all 0.2s ease-in-out;
+}
+#General{
+    height: 80vh;
+}
+.col a{
+    color:black;
+}
+.contacto img{
+    padding-left: 10px;
+}
+.contacto button img{
+    color: white;
+    margin:10px;
+}
+@media screen and (max-width: 767px) {
+    .navbar-brand {
+        display: none;
+    }
+    .contacto a{
+        display: none;
+    }
+    .contacto button img{
+        margin:0;
+    }
+}
