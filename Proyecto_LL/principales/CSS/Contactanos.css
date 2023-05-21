@@ -1,0 +1,88 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.navbar{
+    padding: 2rem;
+    background: #DCFCFF;
+}
+.navbar-collapse{
+    align-items: center;
+    justify-content: space-between;
+}
+.Contactanos {
+    height: 71vh;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.Contactanos img{
+    max-width: 45%;
+}
+.row{
+    background-color: #f5f6f7;
+}
+.contacto img{
+    padding-left: 10px;
+}
+.contacto button img{
+    color: white;
+    margin:10px;
+}
+.Numeros{
+    padding: 25px;
+}
+#uno{
+    padding: 15px;
+}
+#dos{
+    padding: 15px;
+}
+#dos h4{
+
+    padding-top: 15px;
+}
+#dos b{
+    margin: 15px;
+    padding-top: 10px;
+}
+@media screen and (max-width: 1032px) {
+    .navbar-brand {
+        display: none;
+    }
+    .contacto a{
+        display: none;
+    }
+    .contacto button img{
+        margin:0;
+    }
+    #uno img{
+        display: none;
+    }
+    .Numeros{
+        padding: 5px;
+    }
+    #uno{
+        padding: 5px;
+    }
+    #dos{
+        padding: 5px;
+    }
+    #dos h4{
+        padding-top: 5px;
+    }
+    #dos b{
+        margin: 5px;
+        padding-top: 5px;
+        font-size: 12px;
+    }
+    .Numeros p{
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 490px){
+    .Contactanos img{
+        display: none;
+    }
+
+}
