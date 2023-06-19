@@ -4,7 +4,7 @@ include_once '../Controller/mysql.php';
 
 $id = $_GET["id"];
 
-$sql = "DELETE FROM canasta WHERE id = $id";
+$sql = "CALL SP_DB_canasta_elim ($id)";
 
 #var_dump($sql);
 try {
