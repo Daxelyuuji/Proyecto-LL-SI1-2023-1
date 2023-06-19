@@ -21,7 +21,7 @@ if (isset($_POST['eliminar'])) {
     }
 
     // Eliminar el producto del carrito en la tabla carrito de MySQL
-    $stmt = $conn->prepare("DELETE FROM carrito WHERE producto_id = ?");
+    $stmt = $conn->prepare("CALL SP_BD_carrito_elim($producto_id)");
     $stmt->bind_param("i", $producto_id);
     $stmt->execute();
     $stmt->close();
@@ -212,7 +212,7 @@ $conn->close();
                                             ?>
                                             <tr>
                                                 <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-                                                <td><input style="border: 0px; font-weight: bold; text-align: left;" type="text" class="form-control" id="total" name="total" value="<?php echo 'S/'; ?> <?= $total, 2 ?>" required></td>
+                                                <td><input style="border: 0px; font-weight: bold; text-align: left;" readonly onmousedown="return false;" type="text" class="form-control" id="total" name="total" value="<?php echo 'S/'; ?> <?= $total ?>" required></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
@@ -237,9 +237,9 @@ $conn->close();
                                 <div style="width: 40%; padding: 0px 20px">
                                     <div class="step__body" >
                                         <label for="nombre" style="color: blue">Nombre Completo</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="40" >
+                                        <input type="text" class="form-control" id="nombre" name="nombre"  required>
                                     </div>
-                                    <div class="step__body" style="color: blue">
+                                    <div class="step__body" style="color: blue" required>
                                         <label for="correo">Correo Electroncico</label>
                                         <input type="email" class="form-control" id="correo" name="correo" required>
                                     </div>
@@ -249,7 +249,7 @@ $conn->close();
                                     </div>
                                     <div class="step__body">
                                         <label for="tipo_envio" style="color: blue">Tipo de Envío</label><br>
-                                        <select class="form-control" name="tipoenvio">
+                                        <select class="form-control" name="tipoenvio" required>
                                             <option value="Recojo a tienda" >Recojo en tienda</option>
                                             <option value="Domicilio" selected="selected">Domicilio</option>
                                         </select>

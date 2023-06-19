@@ -12,10 +12,10 @@ $metodopago= ($_POST["metodopago"]);
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
 #Actualizar
-    $sql = "UPDATE canasta SET producto = '$producto', precio = '$precio', cantidad = '$cantidad', metodopago = '$metodopago' WHERE id = $id";
+    $sql = "CALL SP_DB_canasta_ac ('$producto', '$precio', '$cantidad', '$metodopago')";
 } else {
 #Insertar
-    $sql = "INSERT INTO canasta (producto, precio, cantidad, metodopago) VALUES ('$producto', '$precio', '$cantidad', '$metodopago' )";
+    $sql = "CALL SP_DB_canasta_in ('$producto', '$precio', '$cantidad', '$metodopago')";
 }
 try {
     conectar();
