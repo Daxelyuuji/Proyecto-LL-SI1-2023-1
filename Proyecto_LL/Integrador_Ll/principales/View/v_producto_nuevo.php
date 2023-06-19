@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" sizes="32x32" href="../Imagenes/favicon-32x32.png">
         <link href="../CSS/style.css" rel="stylesheet" type="text/css"/>
-        <link href="../CSS/nuevoPro.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/carrito_procesar.css" rel="stylesheet" type="text/css"/>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
     </head> 
@@ -53,13 +53,13 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="v_notificaciones.php">
                             <i class='bx bx-bell icon'></i>
                             <span class="text nav-text">Notificaciones</span>
                         </a>
                     </li>
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="v_analisis.php">
                             <i class='bx bx-pie-chart-alt icon' ></i> 
                             <span class="text nav-text">Análisis</span>
                         </a>
@@ -114,7 +114,7 @@
         <br/>
         <center>
             <form class="form-register" method="POST" action="../Model/M_producto_procesar.php" enctype="multipart/form-data">
-
+                 <h2 style="padding: 40px; color: #FFA500">NUEVO PRODUCTO</h2>
                 <div class="form-register__header">
                     <ul class="progressbar">
                         <li class="progressbar__option active">Paso 1</li>

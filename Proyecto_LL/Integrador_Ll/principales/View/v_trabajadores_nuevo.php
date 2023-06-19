@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" sizes="32x32" href="../Imagenes/favicon-32x32.png">
         <link href="../CSS/style.css" rel="stylesheet" type="text/css"/>
-        <link href="../CSS/nuevoPro.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/carrito_procesar.css" rel="stylesheet" type="text/css"/>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
     </head> 
@@ -37,7 +37,7 @@
 
                     <ul class="menu-links">
                         <li class = "nav-link">
-                            <a href="../principales/v_principal.php">
+                            <a href="v_mantenimiento.php">
                                 <i class='bx bx-home-alt icon' ></i> 
                                 <span class="text nav-text">Inicio</span>
                             </a>
@@ -51,13 +51,13 @@
                         </li>
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_notificaciones.php">
                                 <i class='bx bx-bell icon'></i>
                                 <span class="text nav-text">Notificaciones</span>
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_analisis.php">
                                 <i class='bx bx-pie-chart-alt icon' ></i> 
                                 <span class="text nav-text">Análisis</span>
                             </a>

@@ -58,13 +58,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="v_notificaciones.php">
                             <i class='bx bx-bell icon'></i>
                             <span class="text nav-text">Notificaciones</span>
                         </a>
                     </li>
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="v_analisis.php">
                             <i class='bx bx-pie-chart-alt icon' ></i> 
                             <span class="text nav-text">Análisis</span>
                         </a>

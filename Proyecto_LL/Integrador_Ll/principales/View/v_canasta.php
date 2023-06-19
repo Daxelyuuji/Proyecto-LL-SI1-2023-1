@@ -1,6 +1,5 @@
 
 <?php
-include_once '../Model/M_validar.php';
 include_once '../Controller/mysql.php';
 include_once '../Model/validar-cana.php';
 //Arreglado el código source
@@ -18,7 +17,7 @@ include_once '../Model/validar-cana.php';
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" sizes="32x32" href="../Imagenes/favicon-32x32.png">
         <link href="../CSS/style.css" rel="stylesheet" type="text/css"/>
-        <link href="../CSS/canasta.css" rel="stylesheet" type="text/css"/>
+        <link href="../CSS/carrito_procesar.css" rel="stylesheet" type="text/css"/>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     </head> 
     <body>
@@ -61,13 +60,13 @@ include_once '../Model/validar-cana.php';
                         </li>
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_notificaciones.php">
                                 <i class='bx bx-bell icon'></i>
                                 <span class="text nav-text">Notificaciones</span>
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_analisis.php">
                                 <i class='bx bx-pie-chart-alt icon' ></i> 
                                 <span class="text nav-text">Análisis</span>
                             </a>
@@ -122,7 +121,10 @@ include_once '../Model/validar-cana.php';
             <br/>
             <center>
                 <form class="form-register" method="post" action="correo.php" style="text-align: center">
-
+                     <h1 style="text-align: center; color: #FFA500; padding: 20px">CANASTA DE COMPRAS</h1>
+                     <br/>
+                     <br/>
+                     
                     <div class="form-register__header">
                         <ul class="progressbar">
                             <li class="progressbar__option active">Paso 1</li>
@@ -136,13 +138,15 @@ include_once '../Model/validar-cana.php';
                                 <h2 class="step__title"> Canasta <small>( Paso 1)</small></h2>
                             </div>
                             <div class="container-fluid" style="color: green" >
-                                <center> <h1 class="text nav-text">COMPRA</h1></center>
+                                <br/>
+                                <br/>
                                 <div style="display:flex; " class="row">
-                                    <center><a class="mi-boton" href="v_canasta_nuevo.php"> AGREGAR</a></center>
+                                    <br/>
+                                    <center><a class="mi-boton" href="v_canasta_nuevo.php" style="background-color: #FFD200; "> AGREGAR</a></center>
                                 </div>
                                 <div class="row">
 
-                                    <center> <table id="miTabla" class="tablas" border="1" WIDTH="100%" style="color: black" >
+                                    <center> <table id="miTabla" class="tablas" border="1" WIDTH="100%" style="color: black ; padding: 0px 40px" >
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
@@ -273,25 +277,34 @@ include_once '../Model/validar-cana.php';
 
                             <div id="carrito" class="contenido" style="text-align: center">
                                 <br/>
-                                <center>
-                                    <table class="tabla" id="lista-compra">
-                                        <?php $igv = $total * 0.18 ?>
-                                        <tr>
-                                            <th colspan="4" scope="col" class="">SUB TOTAL:</th>
-                                            <th scope="col">S/ <?= $total ?></th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="4" scope="col" class="">IGV:</th>
-                                            <th scope="col">
-                                                <p id="igv">S/ <?= $total * 0.18 ?></p>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="4" scope="col" class="">TOTAL:</th>
-                                            <th scope="col">S/ <?= $total + $igv ?></th>
-                                        </tr>
-                                    </table>
-                                </center>
+                                <table class="tabla" id="lista-compra" style="text-align: left;">
+                                    <?php
+                                    $igv = $total * 0.18;
+                                    $importe = $total + $igv;
+                                    ?>
+                                    <hr><!-- comment -->
+                                    <label style="font-weight: bold; text-align: left; padding: 0px 10px">Detalle Pedido</label>
+                                    <tr>
+                                    <div class="contenido titulo" style="text-align: left; padding: 0px 20px">
+                                        <label for="total" style="font-weight: bold; text-align: left;">Sub Total S/:</label>
+                                        <input style="border: 0px; font-weight: bold; text-align: left;" type="text" class="form-control" id="total" name="total" value="<?= $total ?>" required>
+                                    </div>
+                                    </tr>
+                                    <br/>
+                                    <tr>
+                                    <div class="contenido titulo" style="text-align: left; padding: 0px 20px">
+                                        <label for="igv" style="font-weight: bold; text-align: left;">IGV S/:</label>
+                                        <input style="border: 0px; font-weight: bold; text-align: left;" type="text" class="form-control" id="igv" name="igv" value="<?= $igv ?>" required>
+                                    </div>
+                                    </tr>
+                                    <br/>
+                                    <tr>
+                                    <div class="contenido titulo" style="text-align: left;  padding: 0px 20px">
+                                        <label for="importe" style="font-weight: bold; text-align: left;">Importe a pagar S/:</label>
+                                        <input style="border: 0px; font-weight: bold; text-align: left;" type="text" class="form-control" id="importe" name="importe" value="<?= $importe ?>" required>
+                                    </div>
+                                    </tr>
+                                </table>
                             </div>
                             <br/>
                             <hr/>
@@ -307,7 +320,7 @@ include_once '../Model/validar-cana.php';
                             <br/>
                         </div>
                     </div>
-                    
+
 
                 </form></center>
             <br/>

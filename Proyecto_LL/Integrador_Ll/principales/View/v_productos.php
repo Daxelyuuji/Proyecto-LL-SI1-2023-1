@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php require_once '../Controller/conexion/configuracion.php';?>
+<?php require_once '../Controller/conexion/configuracion.php'; ?>
 <html lang="es">
     <head>
         <title> Productos &copy;</title>
@@ -29,18 +29,23 @@
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         ?>
-                <div class="col-md-3" >
-                    <div class="card">
-                        <hr>
-                        <br/>
-                                <?php echo "<td><img src='../Imagenes/" . $row['img'] . "' width='20' height='200' class='card-img-top'></td>";?>
+                        <div class="col-md-3" >
+                            <div class="card">
+                                <hr>
+                                <br/>
+                                <?php echo "<td><img src='../Imagenes/" . $row['img'] . "' width='20' height='200' class='card-img-top'></td>"; ?>
                                 <div class="card-body">
                                     <h5 id="producto" class="card-title" style="text-align: center"><?php echo $row['producto']; ?></h5>
                                     <p id="precio" class="card-text"> S/ <?php echo $row['precio']; ?></p>
                                     <p id="categoria" class="card-text"> Catgoria: <?php echo $row['categoria']; ?></p>
-                                    <form class="form-register" method="post" action="../Model/M_carrito_añadir.php">
-                                    <center><button type="submit" class="btn btn-primary btn-comprar">Comprar</button></center>
-                                </form>
+                                    <form class="form-register" method="post" action="#">
+                                        <script>
+                                            function validar(){
+                                                alert('Debe registrarse o logearse para poder comprar productos');
+                                            }
+                                        </script>
+                                        <center><button type="submit" class="btn btn-primary btn-comprar" onclick="validar()">Comprar</button></center>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -55,9 +60,9 @@
             <hr>
         </div>
         <br/>
-         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     </body>
-    <?php include '../View/v_footer.php';?>
+    <?php include '../View/v_footer.php'; ?>
 </html>

@@ -9,9 +9,22 @@
         <link href="../CSS/style.css" rel="stylesheet" type="text/css"/>
         <link href="../CSS/perfil.css" rel="stylesheet" type="text/css"/>
         <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
 
+            th, td {
+                padding: 10px;
+                text-align: center;
+                border: 1px solid #ccc;
+            }
+
+        </style>
     </head> 
-    <?php // moverlo a una clase model(en realidad es controller)
+    <?php
+    // moverlo a una clase model(en realidad es controller)
     if (isset($_GET['error'])) {
         $error = $_GET['error'];
         if ($error == "incorrecto") {
@@ -48,7 +61,7 @@
 
                     <ul class="menu-links">
                         <li class = "nav-link">
-                            <a href="../principales/v_principal.php">
+                            <a href="v_mantenimiento.php">
                                 <i class='bx bx-home-alt icon' ></i> 
                                 <span class="text nav-text">Inicio</span>
                             </a>
@@ -62,13 +75,13 @@
                         </li>
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_notificaciones.php">
                                 <i class='bx bx-bell icon'></i>
                                 <span class="text nav-text">Notificaciones</span>
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_analisis.php">
                                 <i class='bx bx-pie-chart-alt icon' ></i> 
                                 <span class="text nav-text">Análisis</span>
                             </a>
@@ -119,58 +132,64 @@
         </nav>
         <section class="home">
             <br/>
-            <div class="text"><center><h2>Bienvenido Administrador</h2></center></div>
+            <div class="text"><center><h2 style="padding: 30px">Bienvenido Administrador "Alex Llauce"</h2></center></div>
             <br/><!-- comment -->
-            <div class="container">
-                <div class="left box-primary">
-                    <img class="image1" src="https://us.123rf.com/450wm/gmast3r/gmast3r1411/gmast3r141100350/33865095-hombre-de-negocios-icono-de-perfil-retrato-masculino-plana.jpg?ver=6" alt="" />
-                    <h3 class="username text-center">José Ynoñan Vidaurre</h3>
-                    <a href="#" class="btn btn-primary btn-block"><b>Editar foto</b></a>
-                </div>
-                <div class="right tab-content">
-                    <form class="form-horizontal" action="actualizar.php">
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Nombre y Apellidos</label>
+            <center><div class="container" style="text-align: center; width: 100%; padding: 0px 100px">
+                    <center><div class="left box-primary" style="width: 30%">
+                            <br/>
+                            <img class="image1" style="width: 150px; height: 150px" src="https://us.123rf.com/450wm/gmast3r/gmast3r1411/gmast3r141100350/33865095-hombre-de-negocios-icono-de-perfil-retrato-masculino-plana.jpg?ver=6" sty />
+                            <br/>
+                            <h3 class="username text-center" style="padding: 20px">Alex Llauce Santisteban</h3>
+                            <a href="#" class="btn-primary btn-block" style="padding: 6px 10px"><b>Editar foto</b></a>
+                        </div></center>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" placeholder="Nombre">
+                    <center><div class="left box-primary" style="width: 70% ">
+                            <div style="width: 100%; padding: 70px 20px">
+                                <center><table style="text-align: center">
+                                        <tr style="background-color: #FFA500">
+                                            <th colspan="5">Datos de Administrador</th>
+                                        </tr>
+                                        <tr style="background-color: #FFD200">
+                                            <th>Nombre</th>
+                                            <th>Apellidos</th>
+                                            <th>Edad</th>
+                                            <th>Correo</th>
+                                            <th>Telelfono</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Alex </td>
+                                            <td>Llauce Santisteban</td>
+                                            <td>25</td>
+                                            <td>minimarketllauce14@gmail.com</td>
+                                            <td>972 087 792</td>
+                                        </tr>
+                                    </table></center>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                            <div style="padding: 20px">
+                                <a href="#" type="submit" name="editar" style="padding: 5px 20px; background-color: #2196F3; border: 0px; color: #FFF">Editar</a>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class= "col-sm-12 has-feedback">
-                                <label for="" class="control-label">Modalidades de trabajo</label>
-                                <select title="Para escolher várias modalidades, segure a tecla Ctrl" alt="Para escolher várias modalidades, segure a tecla Ctrl" name="modalidades[]" class="form-control" multiple="">
-                                    <option value="1">Administrador - Empleados</option>
-                                    <option value="2">Administrador - Productos</option>
-                                    <option value="10">Administrador - Proveedores</option>
-                                    <option value="3">Administrador - Notificaciones</option>
-                                    <option value="5">Administrador - Ingresos</option>
-                                    <option value="18">Desportivo - Natação - Borboleta - 25 metros</option>
-                                    <option value="13">Desportivo - Natação - Borboleta - 50 metros</option>
-                                    <option value="17">Desportivo - Natação - Costa - 25 metros</option>
-                                    <option value="12">Desportivo - Natação - Costa - 50 metros</option>
-                                    <option value="19">Desportivo - Natação - Livre - 25 metros</option>
-                                    <option value="14">Desportivo - Natação - Livre - 50 metros</option>
-                                    <option value="16">Desportivo - Natação - Peito - 25 metros</option>
-                                    <option value="11">Desportivo - Natação - Peito - 50 metros</option>
-                                    <option value="20">Desportivo - Natação - Revezamento - 4x25 metros</option>
-                                    <option value="15">Desportivo - Natação - Revezamento - 4x50 metros</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="editar.php" class="btn btn-primary btn-block" style="width: 100px"><b>EDITAR</b></a>
-                        </div>
-                    </form>
+                        </div></center>
+                    <br/>
                 </div>
-            </div>
-
+            </center>
+            <br/>
+            <center><div class="container" style="text-align: center; width: 100%; padding: 0px 100px">
+                    <center><table class="left box-primary" style="text-align: center ; width: 100%; height: 30px" >
+                            <tr style="background-color: #FFA500" >
+                                <th colspan="5">SUCURSALES</th>
+                            </tr>
+                            <tr style="background-color: #ffffff">
+                                <th>Los olivos</th>
+                                <th>San Martin</th>
+                                <th>PRO</th>
+                                <th>Pilas</th>
+                                <th>San Martin</th>
+                            </tr>
+                        </table></center>
+                    <br/>
+                    <br/>
+                </div>
+            </center>
         </section>
         <script src="../js/script.js" type="text/javascript"></script>
     </body>

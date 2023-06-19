@@ -30,6 +30,7 @@ try {
 
     // Configurar el contenido del correo
     $mail->isHTML(true);
+    
     $mail->Subject = 'Formulario de contacto';
     $mail->Body = "<h1>Formulario de contacto</h1>
                    <p><strong>Nombre:</strong> $nombre</p>

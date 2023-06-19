@@ -49,7 +49,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
                     <ul class="menu-links">
                         <li class = "nav-link">
-                            <a href="../principales/v_principal.php">
+                            <a href="v_mantenimiento.php">
                                 <i class='bx bx-home-alt icon' ></i> 
                                 <span class="text nav-text">Inicio</span>
                             </a>
@@ -63,13 +63,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                         </li>
 
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_notificaciones.php">
                                 <i class='bx bx-bell icon'></i>
                                 <span class="text nav-text">Notificaciones</span>
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="#">
+                            <a href="v_analisis.php">
                                 <i class='bx bx-pie-chart-alt icon' ></i> 
                                 <span class="text nav-text">Análisis</span>
                             </a>

@@ -1,3 +1,24 @@
+
+.seguir-comprando-container {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.btn-seguir-comprando {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.btn-seguir-comprando:hover {
+    background-color: #45a049;
+}
+
+
 *, *:before, *:after {
     padding: 0;
     margin: 0;
@@ -29,7 +50,7 @@
     padding: 15px 10px;
     width: 100%;
     max-width:500px;
-    
+
 }
 
 /* Header del formulario */
@@ -100,7 +121,7 @@
 }
 /*Body de las productos*/
 .carrito_producto{
-height: auto;
+    height: auto;
 }
 /* step */
 .step {

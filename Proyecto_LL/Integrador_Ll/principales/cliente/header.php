@@ -9,7 +9,7 @@
             </a>
             <ul class="navbar-nav  d-flex justify-content-center align-items-center">
                 <li class="nav-item">
-                    <a lass="nav-link active" aria-current="page" href="../view/v_carrito.php"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="35px" width="40px" style="padding-right:10px"></a>
+                    <a lass="nav-link active" aria-current="page" href="carrito.php"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="35px" width="40px" style="padding-right:10px"></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../cliente/principal.php">Inicio</a>
