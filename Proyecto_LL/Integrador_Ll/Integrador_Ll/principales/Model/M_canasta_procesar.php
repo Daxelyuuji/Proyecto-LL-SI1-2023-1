@@ -11,11 +11,12 @@ $metodopago= ($_POST["metodopago"]);
 
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
-#Actualizar
-    $sql = "CALL SP_DB_canasta_ac ('$producto', '$precio', '$cantidad', '$metodopago')";
+    # Actualizar
+    $sql = "CALL SP_DB_canasta_ac('$producto', '$precio', '$cantidad', '$metodopago')";
+    
 } else {
-#Insertar
-    $sql = "CALL SP_DB_canasta_in ('$producto', '$precio', '$cantidad', '$metodopago')";
+    # Insertar,
+    $sql = "CALL SP_DB_canasta_in('$producto', '$precio', '$cantidad', '$metodopago','$id')";
 }
 try {
     conectar();

@@ -18,11 +18,12 @@ move_uploaded_file($_FILES["imagen"]["tmp_name"], $targetFile);
 
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
-#Actualizar
-    $sql = "UPDATE productoss SET producto = '$producto', img = '$imagen', precio = '$precio', stock = '$stock', categoria = '$categoria', idproveedor = '$idproveedor', proveedor = '$proveedor' WHERE id = $id";
+    # Actualizar
+    $sql = "CALL SP_DB_productos_ac('$producto', '$imagen', '$precio', '$stock', '$categoria', '$idproveedor', '$proveedor')";
+    
 } else {
-#Insertar
-    $sql = "INSERT INTO productoss (producto, img, precio, stock, categoria,idproveedor, proveedor) VALUES ('$producto', '$imagen', '$precio', '$stock', '$categoria','$idproveedor', '$proveedor')";
+    # Insertar
+    $sql = "CALL SP_DB_productos_in('$id','$producto', '$imagen', '$precio', '$stock', '$categoria', '$idproveedor', '$proveedor')";
 }
 try {
     conectar();

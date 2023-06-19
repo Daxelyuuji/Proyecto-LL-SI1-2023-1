@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2023 a las 05:46:45
+-- Tiempo de generación: 19-06-2023 a las 09:21:46
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -25,9 +25,9 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_canasta_ac` (IN `ac_id` INT, IN `ac_producto` VARCHAR(40), IN `ac_cantidad` INT, IN `ac_precio` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_canasta_ac` (IN `ac_id` INT(11), IN `ac_producto` VARCHAR(40), IN `ac_cantidad` INT(11), IN `ac_precio` FLOAT, IN `ac_metodopago` VARCHAR(40))   BEGIN
 UPDATE canasta
-SET producto = ac_producto, cantidad = ac_cantidad, precio = ac_precio
+SET producto = ac_producto,precio = ac_precio , cantidad = ac_cantidad, metodopago = ac_metodopago
 WHERE id = ac_id;
 END$$
 
@@ -35,17 +35,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_canasta_elim` (IN `el_id` INT
 DELETE FROM canasta WHERE id=el_id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_canasta_in` (IN `in_producto` VARCHAR(40), IN `in_cantidad` INT, IN `in_precio` INT)   BEGIN
-INSERT INTO canasta(producto,cantidad,precio) VALUES (in_producto, in_cantidad, in_precio);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_canasta_in` (IN `in_producto` VARCHAR(40), IN `in_cantidad` INT(11), IN `in_precio` FLOAT, IN `in_metodopago` VARCHAR(40), IN `in_id` INT(11))   BEGIN
+INSERT INTO canasta(id, producto,precio, cantidad, metodopago) VALUES (in_id, in_producto, in_precio, in_cantidad, in_metodopago);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_productos_ac` (IN `ac_id` INT, IN `ac_categoria` VARCHAR(40), IN `ac_idproveedor` INT, IN `ac_img` VARCHAR(200), IN `ac_precio` FLOAT, IN `ac_proveedor` VARCHAR(50))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_productos_ac` (IN `ac_id` INT(11), IN `ac_categoria` VARCHAR(40), IN `ac_idproveedor` INT(11), IN `ac_img` VARCHAR(255), IN `ac_precio` DECIMAL(10,2), IN `ac_proveedor` VARCHAR(50), IN `ac_producto` VARCHAR(50))   BEGIN
 UPDATE productoss
-SET categoria=ac_categoria, idproveedor=ac_idproveedor, img=ac_img, precio=ac_precio, proveedor=ac_proveedor WHERE id=ac_id;
+SET producto=ac_producto, img=ac_img, precio=ac_precio,  categoria=ac_categoria, idproveedor=ac_idproveedor, proveedor=ac_proveedor WHERE id=ac_id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_productos_in` (IN `in_id` INT, IN `in_categoria` VARCHAR(40), IN `in_idproveedor` INT, IN `in_img` VARCHAR(200), IN `in_precio` FLOAT, IN `in_productos` VARCHAR(60), IN `in_proveedor` VARCHAR(50), IN `in_stock` INT)   BEGIN
-INSERT INTO productoss (productos,img,stock,categoria,idproveedor, proveedor,precio) VALUES (in_productos, in_img, in_stock, in_categoria, in_idproveedor, in_proveedor, in_precio);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_productos_elim` (IN `el_id` INT(11))   BEGIN
+DELETE FROM productoss WHERE id=el_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_productos_in` (IN `in_id` INT(11), IN `in_producto` VARCHAR(60), IN `in_img` VARCHAR(255), IN `in_precio` DECIMAL(10,2), IN `in_stock` INT(11), IN `in_categoria` VARCHAR(40), IN `in_idproveedor` INT(11), IN `in_proveedor` VARCHAR(50))   BEGIN
+INSERT INTO productoss (id, producto,img,precio, stock,categoria,idproveedor, proveedor) VALUES (in_id, in_producto, in_img,in_precio,  in_stock, in_categoria, in_idproveedor, in_proveedor);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DB_trabajadores_act` (IN `ac_id` INT, IN `ac_nombre` VARCHAR(30), IN `ac_apellidos` VARCHAR(40), IN `ac_cargo` VARCHAR(30), IN `ac_celular` INT, IN `ac_contrasena` VARCHAR(10), IN `ac_correo` VARCHAR(50), IN `ac_edad` INT, IN `ac_codigo` VARCHAR(20))   BEGIN
@@ -101,7 +105,13 @@ INSERT INTO `canasta` (`id`, `producto`, `precio`, `cantidad`, `metodopago`) VAL
 (2, 'Detergente 500g', 4.5, 2, 'Efectivo'),
 (3, 'Yogurt 1l Gloria', 5.4, 3, 'Efectivo'),
 (4, 'Gaseosa Coca Cola 500ml', 5.4, 4, 'Efectivo'),
-(5, 'Fideo Don Victorio 950gr', 5.4, 3, 'Efectivo');
+(5, 'Fideo Don Victorio 950gr', 5.4, 3, 'Efectivo'),
+(6, 'Arroz Costeño 5kg', 4, 5, 'Efectivo'),
+(9, 'Yogurt 500g Gloria', 4, 5, 'Efectivo'),
+(10, 'Arroz Costeño 5kg', 10, 5, 'Efectivo'),
+(12, 'Arroz Costeño 5kg', 5, 5, 'Efectivo'),
+(13, 'Yogurt 1l Gloria', 23, 3, 'Efectivo'),
+(14, 'Arroz Costeño 5kg', 4, 5, 'Efectivo');
 
 -- --------------------------------------------------------
 
@@ -123,118 +133,80 @@ CREATE TABLE `carrito` (
 --
 
 INSERT INTO `carrito` (`id`, `producto_id`, `producto_nombre`, `producto_precio`, `cantidad`, `fecha_registro`) VALUES
-(1, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:15:04'),
 (2, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 07:55:17'),
-(3, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 08:02:20'),
 (4, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 08:02:20'),
 (5, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 07:55:58'),
 (6, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 08:04:49'),
-(7, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 08:04:49'),
 (9, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 08:06:26'),
-(10, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 08:06:26'),
 (11, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 09:08:57'),
-(13, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 09:08:57'),
 (15, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 09:10:22'),
-(17, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 09:10:22'),
-(19, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 14:32:43'),
-(22, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 14:33:17'),
-(25, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 14:34:46'),
-(27, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 14:34:52'),
 (28, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:14:00'),
 (29, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:14:00'),
-(30, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:14:00'),
 (31, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:15:04'),
 (32, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:15:04'),
 (34, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:16:02'),
 (35, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:16:02'),
-(36, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:16:02'),
 (37, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:39:03'),
 (38, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:39:03'),
-(39, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:39:03'),
 (40, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:39:14'),
 (41, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:39:14'),
-(42, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:39:14'),
 (43, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:41:56'),
 (44, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:41:56'),
-(45, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:41:56'),
 (46, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:45:06'),
 (47, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:45:06'),
-(48, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:45:06'),
 (49, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:46:38'),
 (50, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:46:38'),
-(51, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:46:38'),
 (52, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 16:46:54'),
 (53, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 16:46:54'),
-(54, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 16:46:54'),
 (55, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:12:37'),
 (56, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:12:37'),
-(57, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:12:37'),
 (58, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:19:52'),
 (59, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:19:52'),
-(60, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:19:52'),
 (61, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:26:23'),
 (62, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:26:23'),
-(63, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:26:23'),
 (64, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:29:29'),
 (65, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:29:29'),
-(66, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:29:29'),
 (67, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:29:31'),
 (68, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:29:31'),
-(69, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:29:31'),
 (70, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:29:36'),
 (71, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:29:36'),
-(72, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:29:36'),
 (73, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:29:37'),
 (74, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:29:37'),
-(75, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:29:37'),
 (76, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 17:29:41'),
 (77, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 17:29:41'),
-(78, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 17:29:41'),
 (79, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 22:46:15'),
 (80, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 22:46:15'),
-(81, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 22:46:15'),
 (82, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 23:02:10'),
 (83, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 23:02:10'),
-(84, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 23:02:10'),
 (85, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-14 23:05:52'),
 (86, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-14 23:05:52'),
-(87, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-14 23:05:52'),
-(88, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-17 01:44:22'),
 (89, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 1, '2023-06-17 01:44:22'),
 (90, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 1, '2023-06-17 01:44:22'),
 (91, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-17 01:44:22'),
 (92, 10001, 'Detergente ariel 500Gr', 9.40, 2, '2023-06-17 08:01:14'),
 (93, 10001, 'Detergente ariel 500Gr', 9.40, 2, '2023-06-17 08:03:43'),
-(94, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-17 08:03:43'),
 (95, 10006, 'Leche Gloria 400g', 5.90, 2, '2023-06-17 08:03:43'),
 (96, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-17 08:06:04'),
 (97, 10001, 'Detergente ariel 500Gr', 9.40, 3, '2023-06-17 08:06:04'),
-(98, 10002, 'Yogurt 500g Gloria', 5.40, 2, '2023-06-17 08:06:04'),
 (99, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 2, '2023-06-17 08:06:04'),
 (100, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-17 08:07:35'),
 (101, 10001, 'Detergente ariel 500Gr', 9.40, 3, '2023-06-17 08:07:35'),
-(102, 10002, 'Yogurt 500g Gloria', 5.40, 2, '2023-06-17 08:07:35'),
 (103, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 2, '2023-06-17 08:07:35'),
 (104, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 2, '2023-06-17 08:07:35'),
 (105, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-17 08:08:10'),
 (106, 10001, 'Detergente ariel 500Gr', 9.40, 3, '2023-06-17 08:08:10'),
-(107, 10002, 'Yogurt 500g Gloria', 5.40, 2, '2023-06-17 08:08:10'),
 (108, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 2, '2023-06-17 08:08:10'),
 (109, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 2, '2023-06-17 08:08:10'),
 (110, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-17 08:08:11'),
 (111, 10001, 'Detergente ariel 500Gr', 9.40, 3, '2023-06-17 08:08:11'),
-(112, 10002, 'Yogurt 500g Gloria', 5.40, 2, '2023-06-17 08:08:11'),
 (113, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 2, '2023-06-17 08:08:11'),
 (114, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 2, '2023-06-17 08:08:11'),
 (115, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-17 08:08:11'),
 (116, 10001, 'Detergente ariel 500Gr', 9.40, 3, '2023-06-17 08:08:11'),
-(117, 10002, 'Yogurt 500g Gloria', 5.40, 2, '2023-06-17 08:08:11'),
 (118, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 2, '2023-06-17 08:08:11'),
 (119, 10010, 'Gaseosa Inka Kola 600ml', 3.20, 2, '2023-06-17 08:08:11'),
 (120, 10003, 'Galletas Oreo 216g', 3.20, 8, '2023-06-17 08:09:47'),
-(121, 10004, 'Arroz  Costeño 5kg', 20.50, 2, '2023-06-17 08:09:47'),
 (122, 10001, 'Detergente ariel 500Gr', 9.40, 2, '2023-06-17 08:09:47'),
-(123, 10002, 'Yogurt 500g Gloria', 5.40, 2, '2023-06-17 08:09:47'),
 (124, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 1, '2023-06-17 05:14:10'),
 (125, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-17 05:14:10'),
 (126, 10009, 'Gaseosa Coca Cola 500ml', 2.50, 2, '2023-06-17 05:14:10'),
@@ -252,7 +224,6 @@ INSERT INTO `carrito` (`id`, `producto_id`, `producto_nombre`, `producto_precio`
 (138, 10011, 'Gaseosa Inka Kola 1l', 5.90, 2, '2023-06-17 10:05:20'),
 (139, 10003, 'Galletas Oreo 216g', 3.20, 3, '2023-06-17 10:06:32'),
 (140, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-17 10:06:32'),
-(141, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-17 10:06:32'),
 (145, 10011, 'Gaseosa Inka Kola 1l', 5.90, 3, '2023-06-18 22:38:33'),
 (146, 10011, 'Gaseosa Inka Kola 1l', 5.90, 3, '2023-06-18 22:39:02'),
 (147, 10011, 'Gaseosa Inka Kola 1l', 5.90, 3, '2023-06-18 22:39:27'),
@@ -358,7 +329,6 @@ INSERT INTO `carrito` (`id`, `producto_id`, `producto_nombre`, `producto_precio`
 (247, 10001, 'Detergente ariel 500Gr', 9.40, 2, '2023-06-19 01:30:41'),
 (248, 10001, 'Detergente ariel 500Gr', 9.40, 2, '2023-06-19 01:32:50'),
 (249, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 01:34:21'),
-(250, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-19 01:34:21'),
 (251, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 01:40:13'),
 (252, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-19 01:40:13'),
 (253, 10011, 'Gaseosa Inka Kola 1l', 5.90, 1, '2023-06-19 01:40:13'),
@@ -391,15 +361,10 @@ INSERT INTO `carrito` (`id`, `producto_id`, `producto_nombre`, `producto_precio`
 (280, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:05:31'),
 (281, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:05:38'),
 (282, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:05:44'),
-(283, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-19 03:05:44'),
 (284, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:06:51'),
-(285, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-19 03:06:51'),
 (286, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:08:01'),
-(287, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-19 03:08:01'),
 (288, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:09:03'),
-(289, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-19 03:09:03'),
 (290, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:13:26'),
-(291, 10002, 'Yogurt 500g Gloria', 5.40, 1, '2023-06-19 03:13:26'),
 (292, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:13:43'),
 (293, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:16:14'),
 (294, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:25:20'),
@@ -408,7 +373,27 @@ INSERT INTO `carrito` (`id`, `producto_id`, `producto_nombre`, `producto_precio`
 (297, 10003, 'Galletas Oreo 216g', 3.20, 1, '2023-06-19 03:26:07'),
 (298, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:29:17'),
 (299, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 03:29:36'),
-(300, 10004, 'Arroz  Costeño 5kg', 20.50, 1, '2023-06-19 03:30:12');
+(301, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:35:57'),
+(302, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:40:12'),
+(303, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:40:21'),
+(304, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:51:20'),
+(305, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:51:33'),
+(307, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:51:36'),
+(308, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:53:07'),
+(310, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:53:09'),
+(311, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 04:58:58'),
+(312, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:10:50'),
+(313, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:11:31'),
+(314, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:11:42'),
+(315, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:13:48'),
+(316, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:15:49'),
+(317, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:19:10'),
+(318, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:19:40'),
+(319, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:22:01'),
+(320, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:26:31'),
+(321, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:28:25'),
+(322, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 05:29:05'),
+(323, 10001, 'Detergente ariel 500Gr', 9.40, 1, '2023-06-19 06:21:15');
 
 -- --------------------------------------------------------
 
@@ -451,8 +436,7 @@ INSERT INTO `empleados` (`id`, `codigo`, `nombre`, `apellidos`, `celular`, `corr
 (2, 'LL002', 'Juan', 'Nasca', 952445252, 'jose@utp.edu.oe', 21, 'Vendedor', '27288192A'),
 (3, 'LL003', 'Julio', 'Ynonan Vidaure', 932022073, 'utp@utp.edu.pe', 21, 'Vendedor', '27288192SS'),
 (4, 'LL004', 'Rosalinda', 'Siesquen', 965212335, 'rosa12@utp.edu.pe', 19, 'Cajera', 'GDHKEKE5'),
-(5, 'LL005', 'Raul', 'Vazquez', 967456335, 'raul1s12@utp.edu.pe', 22, 'Limpieza', 'Jgsfjh4'),
-(6, 'Ll006', 'Maria Rs', 'Sanchez Oka', 968574123, 'maria12es@gmail.com', 23, 'Limpieza', '565455wd');
+(5, 'LL005', 'Raul', 'Vazquez', 967456335, 'raul1s12@utp.edu.pe', 22, 'Limpieza', 'Jgsfjh4');
 
 -- --------------------------------------------------------
 
@@ -488,18 +472,17 @@ CREATE TABLE `productoss` (
 --
 
 INSERT INTO `productoss` (`id`, `producto`, `img`, `precio`, `stock`, `categoria`, `idproveedor`, `proveedor`) VALUES
-(10001, 'Detergente ariel 500Gr', 'WhatsApp Image 2023-05-24 at 18.47.13.jpeg', 9.40, 74, 'Limpieza', 10001, 'Zapolio'),
-(10002, 'Yogurt 500g Gloria', 'WhatsApp Image 2023-05-24 at 18.43.31.jpeg', 5.40, 86, 'Bebidas', 10002, 'Gloria'),
+(10001, 'Detergente ariel 500Gr', 'WhatsApp Image 2023-05-24 at 18.47.13.jpeg', 9.40, 73, 'Limpieza', 10001, 'Zapolio'),
+(10002, 'Yogurt 500g Gloria', 'WhatsApp Image 2023-05-24 at 18.43.31.jpeg', 5.40, 85, 'Bebidas', 10002, 'Gloria'),
 (10003, 'Galletas Oreo 216g', 'WhatsApp Image 2023-05-24 at 19.23.21.jpeg', 3.20, 82, 'Viveres', 10003, 'Oreo'),
-(10004, 'Arroz  Costeño 5kg', 'WhatsApp Image 2023-05-24 at 20.15.58.jpeg', 20.50, 87, 'Viveres', 10004, 'Alicport'),
+(10004, 'Arroz  Costeño 5kg', 'WhatsApp Image 2023-05-24 at 20.15.58.jpeg', 20.50, 86, 'Viveres', 10004, 'Alicport'),
 (10005, 'Fideo Don victorio 950gr', 'WhatsApp Image 2023-05-24 at 20.18.54.jpeg', 5.40, 90, 'Viveres', 10005, 'Alicport'),
 (10006, 'Leche Gloria 400g', 'WhatsApp Image 2023-05-26 at 01.04.05.jpeg', 5.90, 104, 'Viveres', 10006, 'Gloria'),
 (10007, 'Azucar Rubia Costeño 750g', 'WhatsApp Image 2023-05-26 at 01.06.18.jpeg', 4.50, 200, 'Viveres', 10007, 'Alicport'),
 (10008, 'Atun Gloria 170g', 'WhatsApp Image 2023-05-26 at 01.08.29.jpeg', 7.20, 50, 'Viveres', 10008, 'Gloria'),
 (10009, 'Gaseosa Coca Cola 500ml', 'WhatsApp Image 2023-05-26 at 01.12.00.jpeg', 2.50, 62, 'Bebidas', 10009, 'Coca Cola'),
 (10010, 'Gaseosa Inka Kola 600ml', 'WhatsApp Image 2023-05-26 at 01.18.53.jpeg', 3.20, 155, 'Bebidas', 10010, 'Coca cola'),
-(10011, 'Gaseosa Inka Kola 1l', 'WhatsApp Image 2023-05-26 at 01.24.10.jpeg', 5.90, 81, 'Bebidas', 10011, 'Coca cola'),
-(10012, 'Papita Lays 180g', 'WhatsApp Image 2023-05-27 at 16.01.05.jpeg', 2.50, 100, 'Viveres', 10012, 'Pepsico');
+(10011, 'Gaseosa Inka Kola 1l', 'WhatsApp Image 2023-05-26 at 01.24.10.jpeg', 5.90, 81, 'Bebidas', 10011, 'Coca cola');
 
 -- --------------------------------------------------------
 
@@ -660,13 +643,13 @@ ALTER TABLE `boleta`
 -- AUTO_INCREMENT de la tabla `canasta`
 --
 ALTER TABLE `canasta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_boleta`
@@ -690,7 +673,7 @@ ALTER TABLE `images_tabla`
 -- AUTO_INCREMENT de la tabla `productoss`
 --
 ALTER TABLE `productoss`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10013;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10020;
 
 --
 -- AUTO_INCREMENT de la tabla `registro`

@@ -1,7 +1,4 @@
-<!-- 
-Autor José    
-LLamada mediante funciones a la base de datos 
--->
+
 <?php
 include_once '../Controller/conexion/configuracion.php';
 $cnx = "";

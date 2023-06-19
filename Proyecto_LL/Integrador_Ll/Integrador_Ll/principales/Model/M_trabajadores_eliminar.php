@@ -4,7 +4,7 @@ include_once '../Controller/mysql.php';
 
 $id = $_GET["id"];
 
-$sql = "DELETE FROM empleados WHERE id = $id";
+$sql = "CALL SP_DB_trabajadores_elim($id)";
 
 #var_dump($sql);
 try {

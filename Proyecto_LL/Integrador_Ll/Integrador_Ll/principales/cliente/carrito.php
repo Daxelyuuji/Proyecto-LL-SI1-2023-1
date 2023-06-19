@@ -5,7 +5,6 @@ require_once('../vendor/autoload.php'); // Ruta al archivo de autoload de Stripe
 require_once '../Model/M_Pago.php';
 require_once '../fpdf/fpdf.php';
 
-
 if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = array();
 }
@@ -21,7 +20,7 @@ if (isset($_POST['eliminar'])) {
     }
 
     // Eliminar el producto del carrito en la tabla carrito de MySQL
-    $stmt = $conn->prepare("CALL SP_BD_carrito_elim($producto_id)");
+    $stmt = $conn->prepare("DELETE FROM carrito WHERE producto_id = ?");
     $stmt->bind_param("i", $producto_id);
     $stmt->execute();
     $stmt->close();
@@ -90,7 +89,6 @@ if (!empty($_SESSION['carrito'])) {
         // Asignar los valores a los parámetros de la consulta
         $stmt->bind_param("issi", $producto_id, $producto_nombre, $producto_precio, $cantidad);
 
-
         // Ejecutar la consulta
         $stmt->execute();
     }
@@ -99,7 +97,6 @@ if (!empty($_SESSION['carrito'])) {
 }
 $conn->close();
 // Vaciar el carrito
-
 ?>
 <!DOCTYPE html>
 <?php require_once '../Controller/conexion/configuracion.php'; ?>
@@ -145,7 +142,7 @@ $conn->close();
         </style>
     </head>
     <body style="background-color: khaki">
-        <?php require_once '../cliente/header.php'; ?>
+<?php require_once '../cliente/header.php'; ?>
 
         <main>
             <div class="root">
@@ -170,12 +167,12 @@ $conn->close();
                             <br/>
                             <hr/>
                             <div style="display: flex; align-items: flex-start;">
-                                <?php
-                                if (empty($_SESSION['carrito'])) {
-                                    echo "<p>No hay productos en el carrito.</p>";
-                                } else {
-                                    $total = 0;
-                                    ?>
+<?php
+if (empty($_SESSION['carrito'])) {
+    echo "<p>No hay productos en el carrito.</p>";
+} else {
+    $total = 0;
+    ?>
                                     <div>
                                         <img src="../Imagenes/carrito.jpeg" style="width: 400px; height: 300px">
                                     </div>
@@ -190,11 +187,11 @@ $conn->close();
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                            foreach ($_SESSION['carrito'] as $producto) {
-                                                $subtotal = $producto['precio'] * intval($producto['cantidad']);
-                                                $total += $subtotal;
-                                                ?>
+    <?php
+    foreach ($_SESSION['carrito'] as $producto) {
+        $subtotal = $producto['precio'] * intval($producto['cantidad']);
+        $total += $subtotal;
+        ?>
                                                 <tr>
                                                     <td><?php echo $producto['nombre']; ?></td>
                                                     <td><?php echo $producto['cantidad']; ?></td>
@@ -207,17 +204,17 @@ $conn->close();
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                <?php
-                                            }
-                                            ?>
+        <?php
+    }
+    ?>
                                             <tr>
                                                 <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-                                                <td><input style="border: 0px; font-weight: bold; text-align: left;" readonly onmousedown="return false;" type="text" class="form-control" id="total" name="total" value="<?php echo 'S/'; ?> <?= $total ?>" required></td>
+                                                <td><input style="border: 0px; font-weight: bold; text-align: left;" type="text" class="form-control" id="total" name="total" value="<?php echo 'S/'; ?> <?= $total, 2 ?>" required></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                <?php } ?>
+<?php } ?>
                             </div>
                             <hr/>
                             <div class="step__footer">
@@ -237,9 +234,9 @@ $conn->close();
                                 <div style="width: 40%; padding: 0px 20px">
                                     <div class="step__body" >
                                         <label for="nombre" style="color: blue">Nombre Completo</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre"  required>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="40" >
                                     </div>
-                                    <div class="step__body" style="color: blue" required>
+                                    <div class="step__body" style="color: blue">
                                         <label for="correo">Correo Electroncico</label>
                                         <input type="email" class="form-control" id="correo" name="correo" required>
                                     </div>
@@ -249,7 +246,7 @@ $conn->close();
                                     </div>
                                     <div class="step__body">
                                         <label for="tipo_envio" style="color: blue">Tipo de Envío</label><br>
-                                        <select class="form-control" name="tipoenvio" required>
+                                        <select class="form-control" name="tipoenvio">
                                             <option value="Recojo a tienda" >Recojo en tienda</option>
                                             <option value="Domicilio" selected="selected">Domicilio</option>
                                         </select>
@@ -293,20 +290,68 @@ $conn->close();
                                     </div>
                                 </div>
                                 <br/>
-                                
+                                <script >
+                                    function mensaje(){
+                                        alerta("Complete el Formulario en segundo paso");
+                                    }
+                                </script>
                                 <hr/>
                                 <div class="step__footer">
                                     <button type="button" class="step__button step__button--back" data-to_step="2" data-step="3">Regresar</button>
-                                    <button type="submit" class="step__button step__button--back" id="registrarnuevo">Enviar</button>                        
+                                    <button type="submit" class="step__button step__button--back" id="registrarnuevo" onclick="mensaje()">Enviar</button>                        
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                    const nextButtons = document.querySelectorAll('.step__button--next');
+                    nextButtons.forEach(function(button) {
+                    button.addEventListener('click', function(event) {
+                    const currentStep = parseInt(this.dataset.step);
+                    const nextStep = parseInt(this.dataset.to_step);
+                    const form = document.querySelector('.form-register');
+                    // Check if Step 2 is completed
+                    if (currentStep === 2 && !isStep2Completed(form)) {
+                    event.preventDefault();
+                    alert('Debe completar el paso 2 del formulario para poder avanzar al tercer paso.');
+                    } else {
+                    showStep(nextStep);
+                    }
+                    });
+                    });
+                    function isStep2Completed(form) {
+                    const nombre = form.querySelector('#nombre').value.trim();
+                    const correo = form.querySelector('#correo').value.trim();
+                    const direccion = form.querySelector('[name="direccion"]').value.trim();
+                    return nombre !== '' && correo !== '' && direccion !== '';
+                    }
+
+                    function showStep(step) {
+                    const steps = document.querySelectorAll('.step');
+                    steps.forEach(function(stepElement) {
+                    if (parseInt(stepElement.dataset.step) === step) {
+                    stepElement.classList.add('active');
+                    } else {
+                    stepElement.classList.remove('active');
+                    }
+                    });
+                    const progressBarOptions = document.querySelectorAll('.progressbar__option');
+                    progressBarOptions.forEach(function(option, index) {
+                    if (index + 1 === step) {
+                    option.classList.add('active');
+                    } else {
+                    option.classList.remove('active');
+                    }
+                    });
+                    }
+                    });
+                </script>
             </div> 
         </main>
 
-        <?php include '../cliente/footer.php'; ?>
+<?php include '../cliente/footer.php'; ?>
         <script src="../js/register.js" type="text/javascript"></script>
 
     </body>

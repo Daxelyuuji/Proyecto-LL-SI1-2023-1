@@ -1,6 +1,4 @@
-<!DOCTYPE html>  
-<!-- Autor: José
-    Esta vista sirve para ingresar un producto nuevo a la canasta (Administrador)-->
+<!DOCTYPE html>
 <html class="es">
     <head>
         <title>Nuevo Producto &copy;</title>

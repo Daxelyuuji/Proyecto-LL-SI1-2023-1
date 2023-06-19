@@ -41,7 +41,7 @@
                                     <form action="carrito.php" method="post" onsubmit="return validarCantidad()">
                                         <div style="text-align: center">
                                             <label>Cantidad:</label><br/>
-                                            <input type="number" id="cantidadInput" name="cantidad" min="1" max="10" style="padding: 3px 5px; width: 80px" >
+                                            <input type="number" id="cantidadInput" name="cantidad" min="1" max="10" style="padding: 3px 5px; width: 80px">
                                         </div>
                                         <br/>
                                         <input type="hidden" name="producto_id" value="<?php echo $row['id']; ?>">

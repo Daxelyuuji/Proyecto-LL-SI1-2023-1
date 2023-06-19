@@ -1,8 +1,6 @@
-<!-- Autor Jose
-Métodos para correo al usuario del carrito
--->
-
 <?php
+
+
 include_once '../Controller/mysql.php';
 
 //Arreglado el código source
