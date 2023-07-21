@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"OperationsTest::testAddWithTwoValues":0.009,"OperationsTest::testAddWithNullValues":0.002,"OperationsTest::testAddWithNoNumericValues":0,"OperationsTest::testDivideWithTwoValues":0,"OperationsTest::testDivideWithNullValues":0,"OperationsTest::testDivideWithNoNumericValues":0,"OperationsTest::testDivideBetweenZero":0}}
